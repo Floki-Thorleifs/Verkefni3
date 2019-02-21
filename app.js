@@ -10,11 +10,11 @@ const applications = require('./applications');
 
 /* todo sækja stillingar úr env */
 
-if (!sessionSecret) {
+/*if (!sessionSecret) {
   console.error('Add SESSION_SECRET to .env');
   process.exit(1);
 }
-
+*/
 const app = express();
 
 /* todo stilla session og passport */
@@ -46,11 +46,15 @@ app.use('/register', register);
 app.use('/applications', applications);
 app.use('/admin', admin);
 
-function notFoundHandler(req, res, next) { // eslint-disable-line
-  res.status(404).render('error', { page: 'error', title: '404', error: '404 fannst ekki' });
+function notFoundHandler(req, res, next) {
+  // eslint-disable-line
+  res
+    .status(404)
+    .render('error', { page: 'error', title: '404', error: '404 fannst ekki' });
 }
 
-function errorHandler(error, req, res, next) { // eslint-disable-line
+function errorHandler(error, req, res, next) {
+  // eslint-disable-line
   console.error(error);
   res.status(500).render('error', { page: 'error', title: 'Villa', error });
 }
