@@ -29,9 +29,26 @@ VALUES
   return query(q, values);
 }
 
+async function insertUser(data) {
+  const q = `INSERT INTO users (notendanafn, name, email, password) VALUES ($1, $2, $3, $4)`;
+  const values = [data.userName, data.name, data.email, data.password];
+
+  return query(q, values);
+}
+
 async function select() {
   const result = await query('SELECT * FROM applications ORDER BY id');
+  return result.rows;
+}
+async function selectUser() {
+  const result = await query('SELECT * FROM users ORDER BY id');
+  return result.rows;
+}
 
+async function selectID(id) {
+  const q = `SELECT id FROM users WHERE notendanafn = $1`;
+  id = [id];
+  const result = await query(q, id);
   return result.rows;
 }
 
@@ -40,13 +57,19 @@ async function update(id) {
 UPDATE applications
 SET processed = true, updated = current_timestamp
 WHERE id = $1`;
-
+  id = [id];
   return query(q, id);
+}
+
+async function selectPass(user) {
+  const q = `SELECT password FROM users WHERE notendanafn = $1`;
+  user = [user];
+  return query(q, user);
 }
 
 async function deleteRow(id) {
   const q = 'DELETE FROM applications WHERE id = $1';
-
+  id = [id];
   return query(q, id);
 }
 
@@ -54,6 +77,10 @@ module.exports = {
   query,
   insert,
   select,
+  selectUser,
+  selectPass,
+  selectID,
   update,
-  deleteRow, // delete er frátekið orð
+  insertUser,
+  deleteRow // delete er frátekið orð
 };

@@ -1,58 +1,69 @@
-/* eslint-disable prefer-destructuring */
-/* eslint-disable comma-dangle */
 const express = require('express');
-const { Client } = require('pg');
-const { getData } = require('./db');
-const { runQuery } = require('./db');
 
-const connectionString = process.env.DATABASE_URL;
+const { select, update, deleteRow } = require('./db');
 
 const router = express.Router();
 
-router.use(express.urlencoded({ extended: true }));
-
-async function removeFromDB(name) {
-  const client = new Client({ connectionString });
-  await client.connect();
-  let selection;
-  try {
-    await client.query('DELETE FROM applications WHERE name = ($1)', [name]);
-    selection = await client.query('SELECT * FROM applications');
-  } catch (error) {
-    console.error('Gat ekki eytt', error);
-  } finally {
-    await client.end();
-  }
-  return selection.rows;
+/**
+ * Higher-order fall sem umlykur async middleware með villumeðhöndlun.
+ *
+ * @param {function} fn Middleware sem grípa á villur fyrir
+ * @returns {function} Middleware með villumeðhöndlun
+ */
+function catchErrors(fn) {
+  return (req, res, next) => fn(req, res, next).catch(next);
 }
-// eslint-disable-next-line arrow-parens
-removeFromDB().catch(err => {
-  console.error(err);
-});
 
-async function renderApples(res) {
-  const selection = await getData();
-  res.render('apples', {
+/**
+ * Ósamstilltur route handler fyrir umsóknarlista.
+ *
+ * @param {object} req Request hlutur
+ * @param {object} res Response hlutur
+ * @returns {string} Lista af umsóknum
+ */
+async function applications(req, res) {
+  const list = await select();
+
+  const data = {
     title: 'Umsóknir',
-    appList: selection
-  });
+    list
+  };
+
+  return res.render('applications', data);
 }
 
-router.post('/vinna', async (req, res) => {
-  // eslint-disable-next-line prefer-destructuring
-  const id = req.body.id;
-  await runQuery(id, 'UPDATE applications SET processed = TRUE WHERE id =');
+/**
+ * Ósamstilltur route handler sem vinnur úr umsókn.
+ *
+ * @param {object} req Request hlutur
+ * @param {object} res Response hlutur
+ * @returns Redirect á `/applications`
+ */
+async function processApplication(req, res) {
+  const { id } = req.body;
 
-  renderApples(res);
-});
+  await update(id);
 
-router.get('/applications', async (req, res) => {
-  await renderApples(res);
-});
-router.post('/delete', async (req, res) => {
-  const id = req.body.id;
-  await runQuery(id, 'DELETE FROM applications WHERE id =');
-  renderApples(res);
-});
+  return res.redirect('/applications');
+}
+
+/**
+ * Ósamstilltur route handler sem hendir umsókn.
+ *
+ * @param {object} req Request hlutur
+ * @param {object} res Response hlutur
+ * @returns Redirect á `/applications`
+ */
+async function deleteApplication(req, res) {
+  const { id } = req.body;
+
+  await deleteRow(id);
+
+  return res.redirect('/applications');
+}
+
+router.get('/', catchErrors(applications));
+router.post('/process', catchErrors(processApplication));
+router.post('/delete', catchErrors(deleteApplication));
 
 module.exports = router;

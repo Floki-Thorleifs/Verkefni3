@@ -15,6 +15,12 @@ CREATE TABLE applications
 
   CREATE TABLE users
   (
-    name varchar(64) not null
+    id serial primary key,
+    notendanafn varchar(64) not null UNIQUE,
+    password varchar(64) not null,
+    name varchar(64) not null,
+    email varchar(64) not null,
+    admin boolean DEFAULT false
+
     /* todo skema */
   );

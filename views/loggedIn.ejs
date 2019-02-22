@@ -1,0 +1,12 @@
+<%- include('header') -%>
+<p>
+  Innskráning sem <%= user %>
+  <!--${req.user.username}-->
+</p>
+<p>
+  Þú ert admin? <%= admin %>
+  <!--${req.user.admin ? 'admin.' : 'ekki admin.'}-->
+</p>
+<p><a href="/login">Útskráning</a></p>
+<p><a href="/admin">Skoða leyndarmál</a></p>
+<%- include('footer') -%>
