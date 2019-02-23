@@ -1,63 +1,69 @@
 <%- include('header') -%>
+<div>
+  <h1>Nýskráning</h1>
 
-<h1>Nýskráning</h1>
+  <form method="post" action="/signup">
+    <div
+      class="field<%= locals.isInvalid('userName', errors) ?  ' field--invalid' : '' %>"
+    >
+      <label for="userName">Notendanafn</label>
+      <input
+        type="text"
+        name="userName"
+        id="userName"
+        value="<%= userName %>"
+        class=""
+      />
+    </div>
+    <div
+      class="field<%= locals.isInvalid('name', errors) ?  ' field--invalid' : '' %>"
+    >
+      <label for="name">Nafn</label>
+      <input type="text" name="name" id="name" value="<%= name %>" class="" />
+    </div>
+    <div
+      class="field<%= locals.isInvalid('email', errors) ?  ' field--invalid' : '' %>"
+    >
+      <label for="email">Netfang</label>
+      <input
+        type="text"
+        name="email"
+        id="email"
+        value="<%= email %>"
+        class=""
+      />
+    </div>
+    <div
+      class="field<%= locals.isInvalid('password', errors) ?  ' field--invalid' : '' %>"
+    >
+      <label for="password">Lykilorð</label>
+      <input
+        type="password"
+        name="password"
+        id="password"
+        class=""
+        value="<%= password %>"
+      />
+    </div>
+    <div
+      class="field<%= locals.isInvalid('re_password', errors) ?  ' field--invalid' : '' %>"
+    >
+      <label for="re_password">Lykilorð aftur</label>
+      <input type="password" name="re_password" id="re_password" class="" />
+    </div>
 
-<form method="post" action="/signup">
-  <div
-    class="field<%= locals.isInvalid('userName', errors) ?  ' field--invalid' : '' %>"
-  >
-    <label for="userName">Notendanafn</label>
-    <input
-      type="text"
-      name="userName"
-      id="userName"
-      value="<%= userName %>"
-      class=""
-    />
-  </div>
-  <div
-    class="field<%= locals.isInvalid('name', errors) ?  ' field--invalid' : '' %>"
-  >
-    <label for="name">Nafn</label>
-    <input type="text" name="name" id="name" value="<%= name %>" class="" />
-  </div>
-  <div
-    class="field<%= locals.isInvalid('email', errors) ?  ' field--invalid' : '' %>"
-  >
-    <label for="email">Netfang</label>
-    <input type="text" name="email" id="email" value="<%= email %>" class="" />
-  </div>
-  <div
-    class="field<%= locals.isInvalid('password', errors) ?  ' field--invalid' : '' %>"
-  >
-    <label for="password">Lykilorð</label>
-    <input
-      type="password"
-      name="password"
-      id="password"
-      class=""
-      value="<%= password %>"
-    />
-  </div>
-  <div
-    class="field<%= locals.isInvalid('re_password', errors) ?  ' field--invalid' : '' %>"
-  >
-    <label for="re_password">Lykilorð aftur</label>
-    <input type="password" name="re_password" id="re_password" class="" />
-  </div>
+    <% if (errors.length > 0) { %>
+    <h2>Vandræði við að senda umsókn:</h2>
+    <ul class="errors">
+      <% errors.forEach((error) => { %>
+      <li class="error">
+        <label for="<%= error.param %>"><%= error.msg %></label>
+      </li>
+      <% }); %>
+    </ul>
+    <% } %>
 
-  <% if (errors.length > 0) { %>
-  <h2>Vandræði við að senda umsókn:</h2>
-  <ul class="errors">
-    <% errors.forEach((error) => { %>
-    <li class="error">
-      <label for="<%= error.param %>"><%= error.msg %></label>
-    </li>
-    <% }); %>
-  </ul>
-  <% } %>
-
-  <button>Nýskrá</button>
-</form>
-
+    <button>Nýskrá</button>
+  </form>
+</div>
 <%- include('footer') -%>
