@@ -204,6 +204,10 @@ tr:nth-child(even) {
     flex-direction: column;
     justify-content: flex-start;
   }
+
+  .field {
+    flex-direction: column;
+  }
 }
 
 @media (max-width: 300px) {
