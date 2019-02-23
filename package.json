@@ -4,6 +4,7 @@
   "description": "Verkefni 3 sýnilausn",
   "main": "index.js",
   "scripts": {
+    "start": "node app.js",
     "dev": "nodemon app.js",
     "setup": "node setup.js",
     "eslint": "eslint *.js",
