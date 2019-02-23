@@ -11,16 +11,26 @@
     <title><%= title %></title>
     <link rel="stylesheet" href="/styles.css" />
   </head>
+  <div class="every">
   <body>
     <header>
       <nav class="nav_bar">
         <nav class="nav_bar_left">
-          <a class="nav_bar_item" href="/admin">Notendur</a>
+            <a href="/admin" 
+            class="<%= title==='Notendur' ?  'active' : 'nav_bar_item' %>">
+            Notendur
+          </a>
           <% if(!locals.user) { %>
-          <a class="nav_bar_item" href="/signup">Nýskráning</a>
+            <a href="/signup" 
+            class="<%= title==='Nýskráning' ?  'active' : 'nav_bar_item' %>">
+              Nýskráning</a>
           <% } %>
-          <a class="nav_bar_item" href="/applications">Umsóknir</a>
-          <a class="nav_bar_item" href="/">Sækja um</a>
+          <a href="/applications" 
+            class="<%= title==='Umsóknir' ?  'active' : 'nav_bar_item' %>">
+            Umsóknir</a>
+            <a href="/" 
+            class="<%= title==='Atvinnuumsókn' ?  'active' : 'nav_bar_item' %>">
+            Sækja um</a>
         </nav>
         <nav class="nav_bar_right">
           <p class="nav_bar_item"><%= locals.userName %></p>
@@ -28,7 +38,8 @@
             <a class="nav_bar_item" href="/logout">
               Útskrá
             <% } else { %>
-              <a class="nav_bar_item" href="/login">
+              <a href="/login" 
+            class="<%= title==='Innskráning' ?  'active' : 'nav_bar_item' %>">
                 Innskrá
            <% } %>
           </a>

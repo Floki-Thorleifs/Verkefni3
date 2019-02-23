@@ -16,6 +16,7 @@ html {
 
   font-family: 'Open Sans', sans-serif;
   font-size: 16px;
+  margin: 0.5rem;
 }
 
 input,
@@ -126,8 +127,12 @@ button:hover {
   justify-content: space-between;
   align-items: center;
 }
-
-.nav_bar {
+a,
+a.visited {
+  color: black;
+  text-decoration: none;
+}
+nav {
   display: flex;
   justify-content: space-between;
 }
@@ -137,9 +142,13 @@ button:hover {
   justify-content: space-between;
 }
 
-.nav_bar_item {
-  margin-left: 1rem;
+.nav_bar_item,
+.active {
   margin-right: 1rem;
+}
+.active {
+  font-weight: bold;
+  text-decoration: underline;
 }
 .table {
   display: flex;
@@ -170,5 +179,35 @@ tr:nth-child(even) {
 
   .field input {
     flex: 1;
+  }
+}
+@media (max-width: 600px) {
+  .every {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+  .table {
+    overflow-x: auto;
+  }
+  .nav_bar {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .nav_bar_left {
+    display: flex;
+    justify-content: space-evenly;
+  }
+
+  .nav_bar_right {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 300px) {
+  .nav_bar_left {
+    flex-direction: column;
   }
 }

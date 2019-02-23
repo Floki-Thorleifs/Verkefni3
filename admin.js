@@ -37,7 +37,7 @@ async function update(req, res) {
 async function admin(req, res) {
   const list = await users.findAllUsers();
   const data = {
-    title: 'Innskráning tókst',
+    title: 'Notendur',
     list: list
   };
   return res.render('loggedIn', data);

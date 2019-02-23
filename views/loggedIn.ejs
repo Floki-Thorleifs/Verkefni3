@@ -1,49 +1,51 @@
 <%- include('header') -%>
-<h1>Notendur</h1>
-<form method="post" action="/admin/update">
-  <% if(locals.isAdmin) {%>
-  <table class="table" id="table">
-    <tr>
-      <th class="table_admin">Admin:</th>
-      <th class="table_admin">Notendanafn:</th>
-      <th class="table_admin">Nafn:</th>
-      <th class="table_admin">Netfang:</th>
-    </tr>
-    <% list.forEach((user) => { %>
-    <tr>
-      <% if(user.admin) { %>
-      <th class="table_user"><input type="checkbox" checked /></th>
-      <% } else {%>
-      <th class="table_user">
-        <input type="checkbox" name="id[]" value="<%= user.id %>" />
-      </th>
-      <% } %>
-      <th class="table_user"><%= user.notendanafn %></th>
-      <th class="table_user"><%= user.name %></th>
-      <th class="table_user">
-        <a href="mailto:<%= user.email %>"><%= user.email %></a>
-      </th>
-      <% }); %>
-    </tr>
-  </table>
+<div>
+  <h1>Notendur</h1>
+  <form method="post" action="/admin/update">
+    <% if(locals.isAdmin) {%>
+    <table class="table" id="table">
+      <tr>
+        <th class="table_admin">Admin:</th>
+        <th class="table_admin">Notendanafn:</th>
+        <th class="table_admin">Nafn:</th>
+        <th class="table_admin">Netfang:</th>
+      </tr>
+      <% list.forEach((user) => { %>
+      <tr>
+        <% if(user.admin) { %>
+        <th class="table_user"><input type="checkbox" checked /></th>
+        <% } else {%>
+        <th class="table_user">
+          <input type="checkbox" name="id[]" value="<%= user.id %>" />
+        </th>
+        <% } %>
+        <th class="table_user"><%= user.notendanafn %></th>
+        <th class="table_user"><%= user.name %></th>
+        <th class="table_user">
+          <a href="mailto:<%= user.email %>"><%= user.email %></a>
+        </th>
+        <% }); %>
+      </tr>
+    </table>
 
-  <button>Gera admin</button>
+    <button>Gera admin</button>
 
-  <%} else { %>
-  <table class="table" id="table">
-    <tr>
-      <th class="table_admin">Notendanafn:</th>
-      <th class="table_admin">Nafn:</th>
-      <th class="table_admin">Netfang:</th>
-    </tr>
-    <% list.forEach((user) => { %>
-    <tr>
-      <th class="table_user"><%= user.notendanafn %></th>
-      <th class="table_user"><%= user.name %></th>
-      <th class="table_user"><%= user.email %></th>
-      <% }); %>
-    </tr>
-  </table>
-</form>
+    <%} else { %>
+    <table class="table" id="table">
+      <tr>
+        <th class="table_admin">Notendanafn:</th>
+        <th class="table_admin">Nafn:</th>
+        <th class="table_admin">Netfang:</th>
+      </tr>
+      <% list.forEach((user) => { %>
+      <tr>
+        <th class="table_user"><%= user.notendanafn %></th>
+        <th class="table_user"><%= user.name %></th>
+        <th class="table_user"><%= user.email %></th>
+        <% }); %>
+      </tr>
+    </table>
+  </form>
+</div>
 
 <% } %> <%- include('footer') -%>
