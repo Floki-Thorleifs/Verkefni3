@@ -22,3 +22,7 @@ INSERT INTO applications
     (name, email, phone, text, job)
 VALUES
     ('John Johnson', 'john@example.org', 1000000, 'Etiam accumsan neque nec mauris fringilla, id dignissim tortor maximus. Proin sit amet sodales felis. Vivamus ut est magna. Quisque porta quam ac orci dignissim convallis. Nunc efficitur sagittis felis at gravida. Praesent quis quam molestie, rutrum mi sed, malesuada nisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse felis tortor, imperdiet in metus eget, bibendum aliquet nisl.', 'verkefnastjóri');
+INSERT INTO users
+    (notendanafn, name, email, password, admin)
+VALUES
+    ('admin', 'admin', 'admin@admin.is', '$2b$11$vlLW69k60VGIBXONawOjpOb0ui0YlvH1r2hycSWEump99863fIJQC', true)

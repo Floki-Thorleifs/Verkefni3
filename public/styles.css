@@ -127,6 +127,34 @@ button:hover {
   align-items: center;
 }
 
+.nav_bar {
+  display: flex;
+  justify-content: space-between;
+}
+
+.nav_bar_left {
+  display: flex;
+  justify-content: space-between;
+}
+
+.nav_bar_item {
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+.table {
+  display: flex;
+}
+
+tr:nth-child(even) {
+  background-color: lightgray;
+}
+.table_admin {
+  padding: 0.5rem;
+}
+.table_user {
+  padding: 0.5rem;
+}
+
 @media (min-width: 600px) {
   .field {
     flex-direction: row;

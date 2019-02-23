@@ -46,7 +46,7 @@ async function selectUser() {
 }
 
 async function selectID(id) {
-  const q = `SELECT id FROM users WHERE notendanafn = $1`;
+  const q = `SELECT * FROM users WHERE notendanafn = $1`;
   id = [id];
   const result = await query(q, id);
   return result.rows;
@@ -59,6 +59,11 @@ SET processed = true, updated = current_timestamp
 WHERE id = $1`;
   id = [id];
   return query(q, id);
+}
+
+async function updateAdmin(id) {
+  const q = `UPDATE users SET admin = true WHERE id = $1`;
+  return query(q, [id]);
 }
 
 async function selectPass(user) {
@@ -81,6 +86,7 @@ module.exports = {
   selectPass,
   selectID,
   update,
+  updateAdmin,
   insertUser,
   deleteRow // delete er frátekið orð
 };

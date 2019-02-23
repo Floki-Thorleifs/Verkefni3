@@ -1,15 +1,40 @@
 <!DOCTYPE html>
 <html lang="is">
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans|Source+Sans+Pro:700" rel="stylesheet">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans|Source+Sans+Pro:700"
+      rel="stylesheet"
+    />
     <title><%= title %></title>
-    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
     <header>
-
+      <nav class="nav_bar">
+        <nav class="nav_bar_left">
+          <a class="nav_bar_item" href="/admin">Notendur</a>
+          <% if(!locals.user) { %>
+          <a class="nav_bar_item" href="/signup">Nýskráning</a>
+          <% } %>
+          <a class="nav_bar_item" href="/applications">Umsóknir</a>
+          <a class="nav_bar_item" href="/">Sækja um</a>
+        </nav>
+        <nav class="nav_bar_right">
+          <p class="nav_bar_item"><%= locals.userName %></p>
+          <% if(locals.user) { %>
+            <a class="nav_bar_item" href="/logout">
+              Útskrá
+            <% } else { %>
+              <a class="nav_bar_item" href="/login">
+                Innskrá
+           <% } %>
+          </a>
+        </nav>
+      </nav>
     </header>
-    <main>
+    <main></main>
+  </body>
+</html>

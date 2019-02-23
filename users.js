@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 const { selectUser } = require('./db');
 const { selectPass } = require('./db');
 const { selectID } = require('./db');
+const { select } = require('./db');
 
 async function comparePasswords(password, user) {
   const pass = await selectPass(user);
@@ -36,8 +37,19 @@ async function findById(id) {
   return Promise.resolve(null);
 }
 
+async function findAllUsers() {
+  const found = await selectUser();
+
+  if (found) {
+    return Promise.resolve(found);
+  }
+
+  return Promise.resolve(null);
+}
+
 module.exports = {
   comparePasswords,
   findByUsername,
-  findById
+  findById,
+  findAllUsers
 };

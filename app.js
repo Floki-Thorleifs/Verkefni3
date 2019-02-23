@@ -17,11 +17,11 @@ const { Strategy } = require('passport-local');
 const users = require('./users');
 /* todo sækja stillingar úr env */
 
-/*if (!sessionSecret) {
+if (!sessionSecret) {
   console.error('Add SESSION_SECRET to .env');
   process.exit(1);
 }
-*/
+
 const app = express();
 
 /* todo stilla session og passport */
@@ -47,13 +47,6 @@ function isInvalid(field, errors) {
 app.locals.isInvalid = isInvalid;
 
 /* todo setja upp login og logout virkni */
-
-app.use('/', apply);
-app.use('/applications', applications);
-app.use('/admin', admin);
-app.use('/signup', signy);
-
-app.use(express.urlencoded({ extended: true }));
 
 // Passport mun verða notað með session
 app.use(
@@ -103,7 +96,6 @@ passport.serializeUser((user, done) => {
 
 // Sækir notanda út frá id
 passport.deserializeUser(async (id, done) => {
-  console.log(id);
   try {
     const user = await users.findById(id);
     done(null, user);
@@ -122,12 +114,15 @@ app.use((req, res, next) => {
   if (req.isAuthenticated()) {
     // getum núna notað user í viewum
     res.locals.user = req.user;
+    res.locals.login = req.isAuthenticated();
+    res.locals.isAdmin = req.user[0].admin;
+    res.locals.userName = req.user[0].notendanafn;
+    res.locals.name = req.user[0].name;
   }
 
   next();
 });
 
-// Hjálpar middleware sem athugar hvort notandi sé innskráður og hleypir okkur
 // þá áfram, annars sendir á /login
 function ensureLoggedIn(req, res, next) {
   if (req.isAuthenticated()) {
@@ -137,21 +132,20 @@ function ensureLoggedIn(req, res, next) {
   return res.redirect('/login');
 }
 
-app.get('/', (req, res) => {
+/*app.get('/', (req, res) => {
   if (req.isAuthenticated()) {
     return res.render('loggedIn', {
       title: 'Innskráning tókst',
-      user: 'Veit ekki',
-      admin: true
+      user: data
     });
   }
-
+  
   return res.render('login');
-});
+});*/
 
 app.get('/login', (req, res) => {
   if (req.isAuthenticated()) {
-    return res.redirect('/');
+    return res.redirect('/admin ');
   }
 
   let message = '';
@@ -163,22 +157,10 @@ app.get('/login', (req, res) => {
     req.session.messages = [];
   }
 
-  // Ef við breytum name á öðrum hvorum reitnum að neðan mun ekkert virka
   return res.render('./login', {
     title: 'Innskráning',
-    message: 'Siggi er kúkalabbi'
+    message: message
   });
-  /*return res.send(`
-  
-  <%- include('header') -%>
-    <form method="post" action="/login">
-      <label>Notendanafn: <input type="text" name="username"></label>
-      <label>Lykilorð: <input type="password" name="password"></label>
-      <button>Innskrá</button>
-    </form>
-    <p>${message}</p>
-  <%- include('footer') -%>
-  `);*/
 });
 
 app.post(
@@ -198,17 +180,15 @@ app.post(
 
 app.get('/logout', (req, res) => {
   req.logout();
-  res.redirect('/');
+  res.redirect('/login');
 });
 
-app.get('/admin', ensureLoggedIn, (req, res) => {
-  return res.render('loggedIn', {
-    title: 'Innskráning tókst',
-    user: 'Veit ekki',
-    admin: true
-  });
-});
+app.use('/', apply);
+app.use('/applications', ensureLoggedIn, applications);
+app.use('/signup', signy);
+app.use('/admin', ensureLoggedIn, admin);
 
+// Hjálpar middleware sem athugar hvort notandi sé innskráður og hleypir okkur
 function notFoundHandler(req, res, next) {
   // eslint-disable-line
   res
